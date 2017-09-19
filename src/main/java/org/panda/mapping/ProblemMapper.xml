@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.panda.dao.ProblemMapper" >
+  <resultMap id="BaseResultMap" type="org.panda.model.Problem" >
+    <id column="problem_id" property="problemId" jdbcType="INTEGER" />
+    <result column="pbm_title" property="pbmTitle" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="org.panda.model.ProblemWithBLOBs" extends="BaseResultMap" >
+    <result column="pbm_description" property="pbmDescription" jdbcType="LONGVARCHAR" />
+    <result column="pbm_input" property="pbmInput" jdbcType="LONGVARCHAR" />
+    <result column="pbm_output" property="pbmOutput" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    problem_id, pbm_title
+  </sql>
+  <sql id="Blob_Column_List" >
+    pbm_description, pbm_input, pbm_output
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_problem
+    where problem_id = #{problemId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_problem
+    where problem_id = #{problemId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.panda.model.ProblemWithBLOBs" >
+    insert into t_problem (problem_id, pbm_title, pbm_description, 
+      pbm_input, pbm_output)
+    values (#{problemId,jdbcType=INTEGER}, #{pbmTitle,jdbcType=VARCHAR}, #{pbmDescription,jdbcType=LONGVARCHAR}, 
+      #{pbmInput,jdbcType=LONGVARCHAR}, #{pbmOutput,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.panda.model.ProblemWithBLOBs" >
+    insert into t_problem
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="problemId != null" >
+        problem_id,
+      </if>
+      <if test="pbmTitle != null" >
+        pbm_title,
+      </if>
+      <if test="pbmDescription != null" >
+        pbm_description,
+      </if>
+      <if test="pbmInput != null" >
+        pbm_input,
+      </if>
+      <if test="pbmOutput != null" >
+        pbm_output,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="problemId != null" >
+        #{problemId,jdbcType=INTEGER},
+      </if>
+      <if test="pbmTitle != null" >
+        #{pbmTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="pbmDescription != null" >
+        #{pbmDescription,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="pbmInput != null" >
+        #{pbmInput,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="pbmOutput != null" >
+        #{pbmOutput,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.panda.model.ProblemWithBLOBs" >
+    update t_problem
+    <set >
+      <if test="pbmTitle != null" >
+        pbm_title = #{pbmTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="pbmDescription != null" >
+        pbm_description = #{pbmDescription,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="pbmInput != null" >
+        pbm_input = #{pbmInput,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="pbmOutput != null" >
+        pbm_output = #{pbmOutput,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where problem_id = #{problemId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="org.panda.model.ProblemWithBLOBs" >
+    update t_problem
+    set pbm_title = #{pbmTitle,jdbcType=VARCHAR},
+      pbm_description = #{pbmDescription,jdbcType=LONGVARCHAR},
+      pbm_input = #{pbmInput,jdbcType=LONGVARCHAR},
+      pbm_output = #{pbmOutput,jdbcType=LONGVARCHAR}
+    where problem_id = #{problemId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.panda.model.Problem" >
+    update t_problem
+    set pbm_title = #{pbmTitle,jdbcType=VARCHAR}
+    where problem_id = #{problemId,jdbcType=INTEGER}
+  </update>
+</mapper>

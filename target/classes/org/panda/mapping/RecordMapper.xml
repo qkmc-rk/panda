@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.panda.dao.RecordMapper" >
+  <resultMap id="BaseResultMap" type="org.panda.model.Record" >
+    <id column="record_id" property="recordId" jdbcType="INTEGER" />
+    <result column="f_pbm_id" property="fPbmId" jdbcType="INTEGER" />
+    <result column="f_user_id" property="fUserId" jdbcType="INTEGER" />
+    <result column="pbm_result" property="pbmResult" jdbcType="CHAR" />
+    <result column="pbm_time" property="pbmTime" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="org.panda.model.Record" extends="BaseResultMap" >
+    <result column="pbm_code" property="pbmCode" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    record_id, f_pbm_id, f_user_id, pbm_result, pbm_time
+  </sql>
+  <sql id="Blob_Column_List" >
+    pbm_code
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_record
+    where record_id = #{recordId,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectAllByfUserId" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_record
+    where f_user_id = #{fUserId,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_record
+    where record_id = #{recordId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.panda.model.Record" >
+    insert into t_record (record_id, f_pbm_id, f_user_id, 
+      pbm_result, pbm_time, pbm_code
+      )
+    values (#{recordId,jdbcType=INTEGER}, #{fPbmId,jdbcType=INTEGER}, #{fUserId,jdbcType=INTEGER}, 
+      #{pbmResult,jdbcType=CHAR}, #{pbmTime,jdbcType=INTEGER}, #{pbmCode,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="org.panda.model.Record" >
+    insert into t_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="recordId != null" >
+        record_id,
+      </if>
+      <if test="fPbmId != null" >
+        f_pbm_id,
+      </if>
+      <if test="fUserId != null" >
+        f_user_id,
+      </if>
+      <if test="pbmResult != null" >
+        pbm_result,
+      </if>
+      <if test="pbmTime != null" >
+        pbm_time,
+      </if>
+      <if test="pbmCode != null" >
+        pbm_code,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="recordId != null" >
+        #{recordId,jdbcType=INTEGER},
+      </if>
+      <if test="fPbmId != null" >
+        #{fPbmId,jdbcType=INTEGER},
+      </if>
+      <if test="fUserId != null" >
+        #{fUserId,jdbcType=INTEGER},
+      </if>
+      <if test="pbmResult != null" >
+        #{pbmResult,jdbcType=CHAR},
+      </if>
+      <if test="pbmTime != null" >
+        #{pbmTime,jdbcType=INTEGER},
+      </if>
+      <if test="pbmCode != null" >
+        #{pbmCode,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.panda.model.Record" >
+    update t_record
+    <set >
+      <if test="fPbmId != null" >
+        f_pbm_id = #{fPbmId,jdbcType=INTEGER},
+      </if>
+      <if test="fUserId != null" >
+        f_user_id = #{fUserId,jdbcType=INTEGER},
+      </if>
+      <if test="pbmResult != null" >
+        pbm_result = #{pbmResult,jdbcType=CHAR},
+      </if>
+      <if test="pbmTime != null" >
+        pbm_time = #{pbmTime,jdbcType=INTEGER},
+      </if>
+      <if test="pbmCode != null" >
+        pbm_code = #{pbmCode,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where record_id = #{recordId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="org.panda.model.Record" >
+    update t_record
+    set f_pbm_id = #{fPbmId,jdbcType=INTEGER},
+      f_user_id = #{fUserId,jdbcType=INTEGER},
+      pbm_result = #{pbmResult,jdbcType=CHAR},
+      pbm_time = #{pbmTime,jdbcType=INTEGER},
+      pbm_code = #{pbmCode,jdbcType=LONGVARCHAR}
+    where record_id = #{recordId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.panda.model.Record" >
+    update t_record
+    set f_pbm_id = #{fPbmId,jdbcType=INTEGER},
+      f_user_id = #{fUserId,jdbcType=INTEGER},
+      pbm_result = #{pbmResult,jdbcType=CHAR},
+      pbm_time = #{pbmTime,jdbcType=INTEGER}
+    where record_id = #{recordId,jdbcType=INTEGER}
+  </update>
+</mapper>

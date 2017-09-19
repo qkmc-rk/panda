@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.panda.dao.UserMapper" >
+  <resultMap id="BaseResultMap" type="org.panda.model.User" >
+    <id column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="user_login" property="userLogin" jdbcType="VARCHAR" />
+    <result column="user_pass" property="userPass" jdbcType="VARCHAR" />
+    <result column="old_pass" property="oldPass" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="user_mail" property="userMail" jdbcType="VARCHAR" />
+    <result column="user_url" property="userUrl" jdbcType="VARCHAR" />
+    <result column="user_regtime" property="userRegtime" jdbcType="TIMESTAMP" />
+    <result column="user_status" property="userStatus" jdbcType="CHAR" />
+    <result column="display_name" property="displayName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    user_id, user_login, user_pass, old_pass, user_name, user_mail, user_url, user_regtime,
+    user_status, display_name
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from t_user
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+  <select id="selectByUserlogin" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    <include refid="Base_Column_List" />
+    from t_user
+    where user_login = #{userlogin, jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_user
+    where user_id = #{userId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.panda.model.User" >
+    insert into t_user (user_id, user_login, user_pass,
+                        old_pass, user_name, user_mail,
+                        user_url, user_regtime, user_status,
+                        display_name)
+    values (#{userId,jdbcType=INTEGER}, #{userLogin,jdbcType=VARCHAR}, #{userPass,jdbcType=VARCHAR},
+            #{oldPass,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{userMail,jdbcType=VARCHAR},
+            #{userUrl,jdbcType=VARCHAR}, #{userRegtime,jdbcType=TIMESTAMP}, #{userStatus,jdbcType=CHAR},
+            #{displayName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.panda.model.User" >
+    insert into t_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="userLogin != null" >
+        user_login,
+      </if>
+      <if test="userPass != null" >
+        user_pass,
+      </if>
+      <if test="oldPass != null" >
+        old_pass,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="userMail != null" >
+        user_mail,
+      </if>
+      <if test="userUrl != null" >
+        user_url,
+      </if>
+      <if test="userRegtime != null" >
+        user_regtime,
+      </if>
+      <if test="userStatus != null" >
+        user_status,
+      </if>
+      <if test="displayName != null" >
+        display_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userLogin != null" >
+        #{userLogin,jdbcType=VARCHAR},
+      </if>
+      <if test="userPass != null" >
+        #{userPass,jdbcType=VARCHAR},
+      </if>
+      <if test="oldPass != null" >
+        #{oldPass,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userMail != null" >
+        #{userMail,jdbcType=VARCHAR},
+      </if>
+      <if test="userUrl != null" >
+        #{userUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="userRegtime != null" >
+        #{userRegtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userStatus != null" >
+        #{userStatus,jdbcType=CHAR},
+      </if>
+      <if test="displayName != null" >
+        #{displayName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.panda.model.User" >
+    update t_user
+    <set >
+      <if test="userLogin != null" >
+        user_login = #{userLogin,jdbcType=VARCHAR},
+      </if>
+      <if test="userPass != null" >
+        user_pass = #{userPass,jdbcType=VARCHAR},
+      </if>
+      <if test="oldPass != null" >
+        old_pass = #{oldPass,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userMail != null" >
+        user_mail = #{userMail,jdbcType=VARCHAR},
+      </if>
+      <if test="userUrl != null" >
+        user_url = #{userUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="userRegtime != null" >
+        user_regtime = #{userRegtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userStatus != null" >
+        user_status = #{userStatus,jdbcType=CHAR},
+      </if>
+      <if test="displayName != null" >
+        display_name = #{displayName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.panda.model.User" >
+    update t_user
+    set user_login = #{userLogin,jdbcType=VARCHAR},
+      user_pass = #{userPass,jdbcType=VARCHAR},
+      old_pass = #{oldPass,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      user_mail = #{userMail,jdbcType=VARCHAR},
+      user_url = #{userUrl,jdbcType=VARCHAR},
+      user_regtime = #{userRegtime,jdbcType=TIMESTAMP},
+      user_status = #{userStatus,jdbcType=CHAR},
+      display_name = #{displayName,jdbcType=VARCHAR}
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+</mapper>
